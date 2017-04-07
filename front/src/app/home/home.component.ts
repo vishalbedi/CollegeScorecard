@@ -17,12 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(private http: Http, private router: Router, private webservice: WebService) { }
 
   public ngOnInit() {
-    this.webservice.isAuthenticated();
-  }
-
-  public ngOnDestroy() {
-    // Will clear when component is destroyed e.g. route is navigated away from.
-    console.log('destroyed');
+    // Todo: fix init
   }
 
   public clear() {

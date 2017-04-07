@@ -10,12 +10,9 @@ import { DataResolver } from './app.resolver';
 export const ROUTES: Routes = [
   {
     path: '',
-    redirectTo: '/login',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
-  { path: 'login', component: LoginFormComponent },
-  // { path: 'sessionexpired', component: SessionExpiredComponent },
-  // { path: 'forgot-password', component: ErrorMessage },
   { path: 'home', component: HomeComponent },
   { path: '**', component: NotFoundComponent }
 ];

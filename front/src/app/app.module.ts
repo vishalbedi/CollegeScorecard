@@ -22,7 +22,6 @@ import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
 // App is our top level component
 import { AppComponent } from './app.component';
-import { LoginFormComponent } from './login';
 import { NavbarComponent } from  './navbar';
 import { SessionExpiredComponent, NotFoundComponent }  from './utils';
 import { ErrorMessageComponent } from './errormessage';
@@ -56,7 +55,6 @@ type StoreType = {
     AppComponent,
     HomeComponent,
     NavbarComponent,
-    LoginFormComponent,
     SessionExpiredComponent,
     ErrorMessageComponent,
     NotFoundComponent

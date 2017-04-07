@@ -59,7 +59,7 @@ export class AuthenticationService {
     let token = localStorage.getItem('token');
     let headers = new Headers({ 'Authentication-Token': token });
     headers.append('Content-Type', 'application/json');
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({ headers });
     return this.http.post(url, body, options);
   }
 
@@ -69,7 +69,7 @@ export class AuthenticationService {
   public getResource(url: string) {
     let token = localStorage.getItem('token');
     let headers = new Headers({ 'Authentication-Token': token });
-    let options = new RequestOptions({ headers: headers });
+    let options = new RequestOptions({ headers });
     return this.http.get(url, options);
   }
 
