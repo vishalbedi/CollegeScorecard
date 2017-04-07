@@ -11,7 +11,7 @@ def getCollegesPerYear():
     CollegesPerYear = "SELECT Year, COUNT(Id) NumSchools FROM Scorecard GROUP BY Year"
     sql = text(CollegesPerYear)
     result = db.engine.execute(sql)
-    names = []
+    names = [["Year", "Colleges"]]
     for row in result:
-        names.append({"Year": row[0], "CollegeNumber": row[1]})
+        names.append([row[0], row[1]])
     return names

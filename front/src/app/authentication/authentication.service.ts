@@ -10,44 +10,39 @@ export class AuthenticationService {
   private loginSuccessful: boolean = true;
 
   constructor(private http: Http, private router: Router) { }
-
-  public isAuthenticated() {
-    return !this.checkTokenExpired();
-  }
-
-  public clearUserDataAndRedirect() {
-    localStorage.clear();
-    this.router.navigate(['/sessionexpired']);
-  }
+  //
+  // public isAuthenticated() {
+  //   return !this.checkTokenExpired();
+  // }
 
   /**
    * Sends a login request
    *
    */
-  public login(body: string) {
-    return this.http.post('/api/loginuser', body, jsonHeader())
-      .map(this.extractToken)
-      .catch(this.handleError);
-  }
+  // public login(body: string) {
+  //   return this.http.post('/api/loginuser', body, jsonHeader())
+  //     .map(this.extractToken)
+  //     .catch(this.handleError);
+  // }
 
   /**
    * Logout method to send a logout request to the server and clear localStorage
    */
-  public logout() {
-    if (this.isAuthenticated()) {
-      this.postResource('', '/api/logoutuser')
-        .subscribe((data) => this.handleLogout(data),
-        (error) => {
-          if (error.status === 401) {
-            this.router.navigate(['/sessionexpired']);
-          }
-        },
-        () => console.log('got data')
-        );
-    } else {
-      this.clearUserDataAndRedirect();
-    }
-  }
+  // public logout() {
+  //   if (this.isAuthenticated()) {
+  //     this.postResource('', '/api/logoutuser')
+  //       .subscribe((data) => this.handleLogout(data),
+  //       (error) => {
+  //         if (error.status === 401) {
+  //           this.router.navigate(['/sessionexpired']);
+  //         }
+  //       },
+  //       () => console.log('got data')
+  //       );
+  //   } else {
+  //     this.clearUserDataAndRedirect();
+  //   }
+  // }
 
   /**
    *
@@ -67,25 +62,22 @@ export class AuthenticationService {
    * Get resource to fetch data from server using an end point as `url`
    */
   public getResource(url: string) {
-    let token = localStorage.getItem('token');
-    let headers = new Headers({ 'Authentication-Token': token });
-    let options = new RequestOptions({ headers });
-    return this.http.get(url, options);
+    return this.http.get(url);
   }
 
-  private extractToken(res: Response) {
-    let body = res.json();
-    if (res.status === 200) {
-      let response = 'response';
-      let user = 'user';
-      let tokenString = 'authentication_token';
-      let token = body[response][user][tokenString];
-      let maxTokenExpiryTime =
-        Math.floor(new Date().getTime() / 1000) + Number(body[response][user]['token_age']);
-      localStorage.setItem('token', token);
-      localStorage.setItem('token_age', String(maxTokenExpiryTime));
-    }
-  }
+  // private extractToken(res: Response) {
+  //   let body = res.json();
+  //   if (res.status === 200) {
+  //     let response = 'response';
+  //     let user = 'user';
+  //     let tokenString = 'authentication_token';
+  //     let token = body[response][user][tokenString];
+  //     let maxTokenExpiryTime =
+  //       Math.floor(new Date().getTime() / 1000) + Number(body[response][user]['token_age']);
+  //     localStorage.setItem('token', token);
+  //     localStorage.setItem('token_age', String(maxTokenExpiryTime));
+  //   }
+  // }
 
   /**
    *
@@ -115,10 +107,10 @@ export class AuthenticationService {
    *
    * On logout, clear the local storage and redirect to login page
    */
-  private handleLogout(data: Response) {
-    if (data.status === 200) {
-      localStorage.clear();
-      this.router.navigate(['/login']);
-    }
-  }
+  // private handleLogout(data: Response) {
+  //   if (data.status === 200) {
+  //     localStorage.clear();
+  //     this.router.navigate(['/login']);
+  //   }
+  // }
 }

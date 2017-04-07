@@ -98,16 +98,7 @@
   <!-- Main Content -->
   <div class="container-fluid">
     <div class="panel-body">
-      <h1> Main Content here </h1>
-      <button type="button" (click)="getData()" class="btn btn-primary">Get data from backend</button>
-      <button type="button" (click)="clear()" class="btn btn-danger">Clear</button>
-      <div class="panel">
-        <ul>
-          <li *ngFor="let hero of heroes; let i=index">
-            <p>{{hero}}</p>
-          </li>
-        </ul>
-      </div>
+      <google-chart [data]="collegesCharOptions"></google-chart>
     </div>
   </div>
 </div>

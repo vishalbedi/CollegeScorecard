@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import {
   NgModule,
   ApplicationRef
@@ -64,6 +65,7 @@ type StoreType = {
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
+    Ng2GoogleChartsModule,
     RouterModule.forRoot(ROUTES, { useHash: true, preloadingStrategy: PreloadAllModules })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

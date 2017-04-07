@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Response } from '@angular/http';
 import { AuthenticationService } from '../authentication';
-import { Router } from '@angular/router';
-import { NavbarComponent } from  '../navbar';
 import { WebService } from '../webservices';
 
 @Component({
@@ -13,43 +11,34 @@ import { WebService } from '../webservices';
 })
 export class HomeComponent implements OnInit {
 
-  public heroes = [];
-  constructor(private http: Http, private router: Router, private webservice: WebService) { }
+  public collegesCharOptions: any =  {
+    chartType: 'ColumnChart',
+    dataTable: [],
+    options: {title: 'Colleges Per Year'}
+  };
+  constructor(private webservice: WebService) { }
 
   public ngOnInit() {
-    // Todo: fix init
-  }
-
-  public clear() {
-    this.heroes = [];
+    this.getData();
   }
 
   /**
    * Fetch the data from the python-flask backend
    */
-  public getData() {
-    this.webservice.getDataFromBackend()
+  private getData() {
+    this.webservice.getCollegesPerYear()
       .subscribe(
-      (data) => this.handleData(data),
-      (err) => this.logError(err),
-      () => console.log('got data')
+        (data) => this.handleData(data),
+        console.log,
+        () => console.log('got data')
       );
   }
-  private handleData(data: Response) {
+
+   private handleData(data: Response) {
     if (data.status === 200) {
       let receivedData = data.json();
-      this.heroes = receivedData['Heroes'];
+      this.collegesCharOptions.dataTable = receivedData;
     }
-    console.log(data.json());
-  }
-
-  private logError(err: Response) {
-    console.log('There was an error: ' + err.status);
-    if (err.status === 0) {
-      console.error('Seems server is down');
-    }
-    if (err.status === 401) {
-      this.router.navigate(['/sessionexpired']);
-    }
+    console.log(this.collegesCharOptions.dataTable);
   }
 }

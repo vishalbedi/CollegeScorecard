@@ -7,13 +7,7 @@ import { Http, Response } from '@angular/http';
 export class WebService {
   constructor(private authService: AuthenticationService) { }
 
-  public getDataFromBackend() {
-    return this.authService.postResource('', '/api/getdata');
-  }
-
-  public isAuthenticated() {
-    if (!this.authService.isAuthenticated()) {
-      this.authService.clearUserDataAndRedirect();
-    }
+  public getCollegesPerYear() {
+    return this.authService.getResource('/api/exploration/colleges-per-year');
   }
 }
