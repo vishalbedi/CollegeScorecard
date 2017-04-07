@@ -1,4 +1,0 @@
-Flask
-gevent
-Flask-Cors
-git+https://github.com/ansrivas/pylogging.git
