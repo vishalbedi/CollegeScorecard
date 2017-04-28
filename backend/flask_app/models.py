@@ -45,3 +45,20 @@ def getCollegesByStudentAid():
     for row in result:
         rows.append([row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[2]/UGDSSum, (row[4] + row[5] + row[6] + row[7] + row[8])])
     return rows
+
+# Queries all colleges in the dataset and returns information related to the expected income
+# of graduates of that college
+def getCollegesByIncome():
+    UGDSSumCommand = "SELECT SUM(UGDS) from Scorecard"
+    sql = text(UGDSSumCommand)
+    result = db.engine.execute(sql)
+    UGDSSum = 0.0
+    for row in result:
+        UGDSSum = row[0]
+    CollegesByIncome = "SELECT unitID, College, UGDS, DEP_STAT_PCT_IND, INC_PCT_LO, DEP_INC_PCT_LO, IND_INC_PCT_LO, DEP_INC_PCT_M1, DEP_INC_PCT_M2, DEP_INC_PCT_H1, IND_INC_PCT_M1, IND_INC_PCT_M2, IND_INC_PCT_H1, IND_INC_PCT_H2, DEP_INC_PCT_H2, INC_PCT_M1, INC_PCT_M2, INC_PCT_H1, INC_PCT_H2 FROM Scorecard"
+    sql = text(CollegesByIncome)
+    result = db.engine.execute(sql)
+    rows = [["unitID", "College", "UGDS", "DEP_STAT_PCT_IND", "INC_PCT_LO", "DEP_INC_PCT_LO", "IND_INC_PCT_LO", "DEP_INC_PCT_M1", "DEP_INC_PCT_M2", "DEP_INC_PCT_H1", "IND_INC_PCT_M1", "IND_INC_PCT_M2", "IND_INC_PCT_H1", "IND_INC_PCT_H2", "DEP_INC_PCT_H2", "INC_PCT_M1", "INC_PCT_M2", "INC_PCT_H1", "INC_PCT_H2", "probSchool", "totprob", "totprobdep", "totprobind", "totprob2dep", "totprob2ind"]]
+    for row in result:
+        rows.append([row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17], row[18], row[2]/UGDSSum, row[4] + row[15] + row[16] + row[17] + row[18], row[5] + row[7] + row[8] + row[9] + row[14] , row[6] + row[10] + row[11] + row[12] + row[13], row[5] + row[14], row[6] + row[13]])
+    return rows
