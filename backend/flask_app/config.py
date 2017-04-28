@@ -34,10 +34,6 @@ class BaseConfig(object):
     COMPRESS_LEVEL = 6
     COMPRESS_MIN_SIZE = 500
 
-    # Change it based on your admin user
-    ADMIN_USER = 'admin'
-    ADMIN_PASSWORD = 'admin'
-
 
 class DevelopmentConfig(BaseConfig):
     """Default set of configurations for development mode."""
@@ -63,4 +59,3 @@ class TestingConfig(BaseConfig):
     DEBUG = False
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'sqlite://'
-    SECRET_KEY = '792842bc-c4df-4de1-9177-d5207bd9faa6'

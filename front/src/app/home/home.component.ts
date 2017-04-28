@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
 import { AuthenticationService } from '../authentication';
 import { WebService } from '../webservices';
+import { User }    from './User';
 
 @Component({
   selector: 'home',
@@ -10,7 +11,10 @@ import { WebService } from '../webservices';
   providers: [WebService, AuthenticationService]
 })
 export class HomeComponent implements OnInit {
-
+  public genders = ['Male', 'Female'];
+  public regions = ['Far West', 'Great Lakes', 'Mid East', 'New England', 'Plains',
+    'Rocky Mountains', 'Southeast', 'Southwest'];
+  public model = new User('', 600, 600, 600, '', '');
   public collegesCharOptions: any =  {
     chartType: 'ColumnChart',
     dataTable: [],
@@ -22,6 +26,9 @@ export class HomeComponent implements OnInit {
     this.getData();
   }
 
+  public onSubmit() {
+    console.log('submitted');
+  }
   /**
    * Fetch the data from the python-flask backend
    */

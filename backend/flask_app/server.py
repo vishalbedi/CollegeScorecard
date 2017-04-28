@@ -4,7 +4,7 @@ import logging
 import traceback
 from flask import jsonify
 from gevent.wsgi import WSGIServer
-from .models import getCollegesPerYear
+from .models import *
 from .factory import create_app
 
 logger = logging.getLogger(__name__)
