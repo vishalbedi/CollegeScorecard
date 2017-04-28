@@ -14,6 +14,7 @@ export class HomeComponent implements OnInit {
   public regions = ['Far West', 'Great Lakes', 'Mid East', 'New England', 'Plains',
     'Rocky Mountains', 'Southeast', 'Southwest'];
   public model = new User('', 600, 600, 600, '', '');
+  public submitted: boolean = false;
   public collegesCharOptions: any =  {
     chartType: 'ColumnChart',
     dataTable: [],
@@ -26,7 +27,8 @@ export class HomeComponent implements OnInit {
   }
 
   public onSubmit() {
-    console.log('submitted');
+    this.submitted = true;
+    this.webservice.postResource(JSON.stringify(this.model), '/somewhere').subscribe();
   }
   /**
    * Fetch the data from the python-flask backend
