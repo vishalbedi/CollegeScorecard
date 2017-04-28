@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
-import { AuthenticationService } from '../authentication';
 import { WebService } from '../webservices';
 import { User }    from './User';
 
@@ -8,7 +7,7 @@ import { User }    from './User';
   selector: 'home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
-  providers: [WebService, AuthenticationService]
+  providers: [WebService]
 })
 export class HomeComponent implements OnInit {
   public genders = ['Male', 'Female'];
