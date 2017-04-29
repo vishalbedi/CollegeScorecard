@@ -3,6 +3,11 @@ This application performs analysis over the college scorecard dataset and shows 
 The choice of server is Flask framework over python. 
 Python is chosen because it has an array of data-analytics and machine learning toolkits. 
 
+# Dataset
+```
+https://www.kaggle.com/kaggle/college-scorecard/downloads/college-scorecard-release-2015-09-23-15-08-57.zip
+```
+
 
 # Setup
 #### Setting Server
