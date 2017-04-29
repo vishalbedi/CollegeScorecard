@@ -4,7 +4,7 @@
 
   <!-- Main Content -->
   <div class="container">
-    <div  >
+    <div [hidden] = submitted >
       <h1>Enter The Details</h1>
       <form (ngSubmit)="onSubmit()" #UserForm="ngForm">
         <div class="form-group">
@@ -54,11 +54,11 @@
             <th>Average SAT</th>
             <th>Number of Undergrads</th>
         </tr>
-        <tr *ngFor="let game of games; let i = index">
+        <tr *ngFor="let college of colleges; let i = index">
             <td>{{i + 1}}</td>
-            <td>{{game.game}}</td>
-            <td>{{game.platform}}</td>
-            <td>{{game.release}}</td>
+            <td>{{college.name}}</td>
+            <td>{{college.satAvg}}</td>
+            <td>{{college.numOfUdgr}}</td>
         </tr>
       </table>
     </div>
