@@ -25,6 +25,6 @@ Python is chosen because it has an array of data-analytics and machine learning 
  http://localhost:3000/#/home
  ```
  
- You can find more information related to angular client from webpack-angular2-starter repo
+
  
  
