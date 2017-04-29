@@ -11,7 +11,7 @@ db = SQLAlchemy()
 
 
 class Ethnicity(db.Model):
-    """Create roles in the database."""
+    """Ethnicity Model. We will be using the Bayes factors from this model to compute utility function"""
     __tablename__ = 'ethnicity'
     unitID = db.Column(db.Integer, primary_key=True)
     College = db.Column(db.String(80), nullable=False)
@@ -76,11 +76,14 @@ class Ethnicity(db.Model):
         return self.make_bf(self.UGDS_UNKN)
 
     def make_bf(self, attr):
+        """Utility function to create bayes factors"""
         attr = 1.0E-9 + attr
         return math.log10(attr/sum(attr * row.probSchool for row in self))
 
 
 class Academic(db.Model):
+    """Academic Model"""
+    __tablename__ = 'academic'
     unitID = db.Column(db.Integer, primary_key=True)
     College = db.Column(db.String(80), nullable=False)
     UGDS = db.Column(db.Integer)
@@ -118,6 +121,8 @@ class Academic(db.Model):
 
 
 class StudentAid(db.Model):
+    """Student AID model"""
+    __tablename__ = 'student_aid'
     unitID = db.Column(db.Integer, primary_key=True)
     College = db.Column(db.String(80), nullable=False)
     UGDS = db.Column(db.Integer)
@@ -166,7 +171,58 @@ class StudentAid(db.Model):
         attr = 1.0E-9 + attr
         return math.log10(attr/sum(attr * row.probSchool for row in self))
 
+class Earnings(db.Model):
+    """Earnings after graduation model"""
+    __tablename__ = 'earnings'
+    unitID = db.Column(db.Integer, primary_key=True)
+    College = db.Column(db.String(80), nullable=False)
+    UGDS = db.Column(db.Integer)
+    CDR3 = db.Column(db.REAL)
+    RPY_3YR_RT = db.Column(db.REAL)
+    RPY_5YR_RT = db.Column(db.REAL)
+    RPY_7YR_RT = db.Column(db.REAL)
+    mn_earn_wne_p6_2005 = db.Column(db.REAL)
+    md_earn_wne_p6_2005 = db.Column(db.REAL)
+    pct10_earn_wne_p6_2005 = db.Column(db.REAL)
+    pct25_earn_wne_p6_2005 = db.Column(db.REAL)
+    pct75_earn_wne_p6_2005 = db.Column(db.REAL)
+    pct90_earn_wne_p6_2005= db.Column(db.REAL)
+    sd_earn_wne_p6_2005= db.Column(db.REAL)
 
+    @hybrid_property
+    def probSchool(self):
+        return self.UGDS / sum(row.UGDS for row in self)
+
+    @hybrid_property
+    def sdlog(self):
+        return math.sqrt(math.log((self.sd_earn_wne_p6_2005 / self.mn_earn_wne_p6_2005) ** 2 + 1))
+
+    @hybrid_property
+    def meanlog(self):
+        return math.log(self.mn_earn_wne_p6_2005 ** 2 / math.sqrt(self.mn_earn_wne_p6_2005 ** 2 + self.sd_earn_wne_p6_2005 ** 2))
+
+    @hybrid_property
+    def p_le30K (self):
+        return lognorm.cdf(30.0E3, self.sdlog, 0, math.exp(self.meanlog))
+
+    @hybrid_property
+    def p_gt30Kle48K(self):
+        return lognorm.cdf(48.0E3, self.sdlog, 0, math.exp(self.meanlog)) -  self.p_le30K
+
+    @hybrid_property
+    def p_gt48Kle75K(self):
+        return  lognorm.cdf(75.0E3, self.sdlog, 0, math.exp(self.meanlog)) - lognorm.cdf(48.0E3, self.sdlog, 0, math.exp(self.meanlog))
+
+    @hybrid_property
+    def p_gt75Kle110K(self):
+        return  lognorm.cdf(110.0E3, self.sdlog, 0, math.exp(self.meanlog)) - lognorm.cdf(75.0E3, self.sdlog, 0, math.exp(self.meanlog))
+
+    @hybrid_property
+    def p_gt110K(self):
+        return lognorm.cdf(110.0E3, self.sdlog, 0, math.exp(self.meanlog))
+    @hybrid_property
+    def totprob(self):
+        return self.p_le30K + self.p_gt30Kle48K + self.p_gt48Kle75K + self.p_gt75Kle110K + self.p_gt110K
 
 # def getCollegesPerYear():
 #     query = "SELECT INSTNM  college FROM Scorecard Limit 5 "
