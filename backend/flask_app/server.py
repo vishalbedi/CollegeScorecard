@@ -6,13 +6,16 @@ from flask import jsonify
 from gevent.wsgi import WSGIServer
 from .models import *
 from .factory import create_app
+from flask import request
 
 logger = logging.getLogger(__name__)
 app = create_app()
 
-@app.route('/api/exploration/colleges-per-year', methods=['GET'])
+@app.route('/api/analytics/get-college-list', methods=['POST'])
 def collegesPerYear():
-    result = getCollegesPerYear()
+    form = request.json
+    print(form)
+    result = getCollegesPerYear(str(form["satVerbal"]), str(form["satMath"]), str(form["satWriting"]))
     return jsonify(result)
 
 
