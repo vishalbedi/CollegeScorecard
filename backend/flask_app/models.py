@@ -117,14 +117,65 @@ class Academic(db.Model):
 
 
 
-def getCollegesPerYear():
-    query = "SELECT INSTNM  college FROM Scorecard Limit 5 "
+class StudentAid(db.Model):
+    unitID = db.Column(db.Integer, primary_key=True)
+    College = db.Column(db.String(80), nullable=False)
+    UGDS = db.Column(db.Integer)
+    pell_ever_2005 = db.Column(db.Model)
+    fsend_1_2005 = db.Column(db.REAL)
+    fsend_2_2005 = db.Column(db.REAL)
+    fsend_3_2005 = db.Column(db.REAL)
+    fsend_4_2005 = db.Column(db.REAL)
+    fsend_5_2005 = db.Column(db.REAL)
 
-    sql = text(query)
-    result = db.engine.execute(sql)
-    names = [["Name"]]
-    for row in result:
-        names.append([row[0]])
-    return names
+    @hybrid_property
+    def probSchool(self):
+        return self.UGDS / sum(row.UGDS for row in self)
+
+
+    @hybrid_property
+    def totprob(self):
+        return self.fsend_1_2005 + self.fsend_2_2005 + self.fsend_3_2005 + self.fsend_4_2005 + self.fsend_5_2005
+
+
+    @hybrid_property
+    def BF_fsend_1_2005(self):
+        return self.make_bf(self.fsend_1_2005)
+
+    @hybrid_property
+    def BF_fsend_2_2005(self):
+        return self.make_bf(self.fsend_2_2005)
+
+    @hybrid_property
+    def BF_fsend_3_2005(self):
+        return self.make_bf(self.fsend_3_2005)
+
+    @hybrid_property
+    def BF_fsend_4_2005(self):
+        return self.make_bf(self.fsend_4_2005)
+
+    @hybrid_property
+    def BF_fsend_5_2005(self):
+        return self.make_bf(self.fsend_5_2005)
+
+    @hybrid_property
+    def BF_pell_ever_2005(self):
+        return self.make_bf(self.pell_ever_2005)
+
+    def make_bf(self, attr):
+        attr = 1.0E-9 + attr
+        return math.log10(attr/sum(attr * row.probSchool for row in self))
+
+
+
+# def getCollegesPerYear():
+#     query = "SELECT INSTNM  college FROM Scorecard Limit 5 "
+#
+#     sql = text(query)
+#     result = db.engine.execute(sql)
+#     names = [["Name"]]
+#     for row in result:
+#         names.append([row[0]])
+#     return names
 
 
