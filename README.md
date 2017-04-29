@@ -21,8 +21,10 @@ Python is chosen because it has an array of data-analytics and machine learning 
  npm install karma-cli protractor typescript webpack-dev-server rimraf webpack -g
  npm install
  npm run server
+ 
+ http://localhost:3000/#/home
  ```
  
- You can find more information related to angular client from webpack-angular2-starter repo
+
  
  
